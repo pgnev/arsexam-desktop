@@ -1,0 +1,81 @@
+name: Publish ArsExam 3.0.2 compatibility release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VERSION: "3.0.2"
+      PUBLIC_REPOSITORY: "pgnev/arsexam-releases"
+      EXPECTED_PACKAGE_SHA256: "D3309E0061F4CF7E41CE500C9855827A4DC3FED95119A2AE0C3B3E0C8184E621"
+      EXPECTED_SETUP_SHA256: "50B07D0396E396768A6CB0639F335E9FA1DB23908B149D7CF2FB5D09217A6706"
+
+    steps:
+      - name: Verify official public Stable feed
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $url = "https://raw.githubusercontent.com/$env:PUBLIC_REPOSITORY/main/update/stable-manifest.json"
+          $manifest = Invoke-RestMethod "$url`?nonce=$([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds())"
+          if ($manifest.version -ne $env:VERSION) { throw "Official Stable feed is not $env:VERSION." }
+          if ($manifest.channel -ne "stable") { throw "Official feed is not Stable." }
+          if ($manifest.packageSha256 -ne $env:EXPECTED_PACKAGE_SHA256) { throw "Official package hash mismatch." }
+          if ($manifest.installerSha256 -ne $env:EXPECTED_SETUP_SHA256) { throw "Official Setup hash mismatch." }
+
+      - name: Build legacy full-Setup manifest
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $base = "https://github.com/$env:PUBLIC_REPOSITORY/releases/download/v$env:VERSION"
+          $manifest = [ordered]@{
+            schemaVersion = 1
+            channel = "stable"
+            version = $env:VERSION
+            minimumSupportedVersion = "3.0.0"
+            packageUrl = "$base/ArsExam_Update_${env:VERSION}_win-x64.zip"
+            packageSha256 = $env:EXPECTED_PACKAGE_SHA256
+            requiresInstaller = $true
+            installerUrl = "$base/ArsExam_Setup_${env:VERSION}_win-x64.exe"
+            installerSha256 = $env:EXPECTED_SETUP_SHA256
+            releaseNotes = "ArsExam 3.0.2 — compatibility bridge. Official binaries are served only from pgnev/arsexam-releases."
+            publishedAtUtc = (Get-Date).ToUniversalTime().ToString("o")
+          }
+          $manifest | ConvertTo-Json -Depth 5 | Set-Content update-manifest.json -Encoding utf8
+
+      - name: Create immutable compatibility release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $tag = "v$env:VERSION"
+          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) { throw "Compatibility release $tag already exists; refusing to mutate it." }
+          gh release create $tag update-manifest.json --repo $env:GITHUB_REPOSITORY --target main --title "ArsExam $env:VERSION — compatibility bridge" --notes "Legacy update compatibility only. Official ArsExam binaries are published in pgnev/arsexam-releases."
+          if ($LASTEXITCODE -ne 0) { throw "Compatibility release creation failed." }
+
+      - name: Verify legacy latest endpoint
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $url = "https://github.com/$env:GITHUB_REPOSITORY/releases/latest/download/update-manifest.json"
+          $manifest = $null
+          for ($i=0; $i -lt 10; $i++) {
+            try {
+              $manifest = Invoke-RestMethod "$url`?nonce=$([DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds())" -MaximumRedirection 10
+              if ($manifest.version -eq $env:VERSION) { break }
+            } catch { }
+            Start-Sleep -Seconds 4
+          }
+          if ($null -eq $manifest -or $manifest.version -ne $env:VERSION) { throw "Legacy latest endpoint is not 3.0.2." }
+          if (-not $manifest.requiresInstaller) { throw "Legacy bridge must require full Setup." }
+          if ($manifest.installerSha256 -ne $env:EXPECTED_SETUP_SHA256) { throw "Legacy bridge Setup hash mismatch." }
+          if ($manifest.packageSha256 -ne $env:EXPECTED_PACKAGE_SHA256) { throw "Legacy bridge package hash mismatch." }
+          if ($manifest.installerUrl -notlike "https://github.com/$env:PUBLIC_REPOSITORY/*") { throw "Legacy bridge does not point to official release repository." }
+          Write-Host "ArsExam 3.0.2 compatibility bridge verified."
