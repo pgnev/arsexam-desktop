@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "channel": "test",
+  "version": "3.1.0-rc.9",
+  "minimumSupportedVersion": "3.0.1",
+  "packageUrl": "https://github.com/pgnev/arsexam-releases/releases/download/v3.1.0-rc.9/ArsExam_Update_3.1.0-rc.9_win-x64.zip",
+  "packageSha256": "F2F877985CEEC04C7E0AA682BEEBD1775FA5BC1F41A53DA1970A5911E37037D3",
+  "requiresInstaller": true,
+  "installerUrl": "https://github.com/pgnev/arsexam-releases/releases/download/v3.1.0-rc.9/ArsExam_Setup_3.1.0-rc.9_win-x64.exe",
+  "installerSha256": "B1B7E7D5B9D7A8E4CCC8805B4180A69799B7EEC2AEC37AA942AF332AAC33B881",
+  "releaseNotes": "ArsExam 3.1.0-rc.9 — Test compatibility feed. Official binaries are served from pgnev/arsexam-releases.",
+  "publishedAtUtc": "2026-08-23T22:00:13.2178544Z"
+}
