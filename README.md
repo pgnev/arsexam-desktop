@@ -1,50 +1,60 @@
 # ArsExam Desktop — Legacy Compatibility Repository
 
-Това repository се пази **само за обратна съвместимост** с по-стари ArsExam Desktop инсталации, публикувани преди официалната binary/update дистрибуция да бъде преместена в отделния release repository.
+Това repository се пази **само за обратна съвместимост** с по-стари ArsExam Desktop инсталации и compatibility URL-и.
 
-> **Не използвайте това repository като текущ download или update authority.**
+> **Не използвайте това repository като текущ download, release или update authority.**
 
-## Текуща официална дистрибуция
+## Текущ официален канал
 
-Официалните ArsExam Windows installers, update packages, Stable/Test manifests и публични release notices се публикуват в:
+Официалните ArsExam Windows installers, update packages, Stable/Test manifests, release notes и публични legal/privacy/security notices се публикуват в:
 
 **`pgnev/arsexam-releases`**
 
-Към момента на тази актуализация публикуваният Stable е **3.1.0**, а **3.1.1** е финален Stable candidate в private validation. След официалната му публикация авторитетният статус винаги е този в `pgnev/arsexam-releases` и неговия Stable manifest.
-
-ArsExam 3.1.1 поддържа clean install и **не изисква предварително инсталиран 3.1.0**. Пълният Setup за 3.1.0 → 3.1.1 е upgrade-path изискване заради Launcher/deployment промени, а не prerequisite за нова инсталация.
+Към 27.08.2026 г. текущият официален Stable е **ArsExam 3.2.0**. Test каналът временно е синхронизиран със същата версия и няма активен prerelease.
 
 Текущият application source code не се разпространява от това repository.
 
 ## Защо repository-то остава онлайн
 
-По-стари ArsExam клиенти могат все още да използват compatibility URL-и под `pgnev/arsexam-desktop`. Премахването или пренасочването им без контролирана migration логика може да наруши обновяването на стари инсталации.
+По-стари ArsExam клиенти могат все още да използват compatibility URL-и под `pgnev/arsexam-desktop`. Премахването им без контролирана migration логика може да наруши обновяването на стари инсталации.
 
 Затова repository-то може да съдържа само:
 
 - compatibility update metadata;
-- минимални compatibility механизми, когато са необходими за стар клиент;
-- публична информация за copyright/licensing и пренасочване към текущия distribution authority.
+- минимални compatibility механизми, необходими за стари клиенти;
+- copyright/licensing/security notices;
+- ясно пренасочване към текущия distribution authority.
 
-То не трябва да се превръща във втори независим release канал.
+То **не трябва да се превръща във втори независим release канал** и не трябва да публикува алтернативни Stable/Test binaries.
 
-## Текуща продуктова архитектура
+## Текуща продуктова линия
 
-Новата функционалност, включително 3.1.1 local Recovery Key, encrypted SQLite/security envelope, protected Backup/Restore, Desktop↔Portable Transfer и opt-in crash/error diagnostics, се разработва и валидира в private canonical source repository и се публикува само чрез `pgnev/arsexam-releases`.
+ArsExam 3.2.0 включва защитено локално security envelope/SQLCipher-capable SQLite storage, local Recovery Key с encrypted profile-bound vault за нови 3.2+ профили, protected Backup/Restore, Desktop↔Portable Transfer и opt-in crash/error diagnostics.
 
-Това legacy repository не е backend за password recovery, Backup, Transfer или диагностика и не съхранява потребителски ArsExam данни.
+Това legacy repository:
+
+- не е password-recovery backend;
+- не е Backup/Transfer backend;
+- не е diagnostics endpoint;
+- не съхранява потребителски ArsExam профили, бази или изпитно съдържание.
+
+Няма Supabase recovery service, Request ID или support-issued reset code, свързани с този repository.
 
 ## Security boundary
 
-Тук не трябва да се commit-ват application source code, credentials, signing material, private diagnostics, user databases или examination content.
+Тук не трябва да се commit-ват application source code, credentials, signing material, private diagnostics, user databases, Recovery Keys, Backup passwords, Transfer codes или examination content.
 
 Compatibility metadata трябва да сочи само към контролирания официален distribution path и не трябва тихо да downgrade-ва клиент към по-стара или непроверена версия.
 
+Security проблеми се докладват частно на **petkoganev@gmail.com**. Вижте `SECURITY.md`.
+
 ## Licensing
 
-ArsExam е **proprietary software**. Това публично compatibility repository не поставя ArsExam под open-source лиценз.
+ArsExam е **proprietary software**. Публичната видимост на това compatibility repository не предоставя MIT, GPL, Apache или друг open-source лиценз върху оригиналния ArsExam софтуер.
 
-Официалните ArsExam binaries се използват съгласно End User License Agreement (EULA), предоставено със съответния release. Third-party компонентите запазват собствените си лицензи и notices.
+Официалните ArsExam binaries се използват съгласно EULA, публикувана с официалната дистрибуция в `pgnev/arsexam-releases`. Third-party компонентите запазват собствените си лицензи и notices.
+
+Вижте `LICENSE.md` и `COPYRIGHT.md`.
 
 ## Copyright и support
 
@@ -52,4 +62,4 @@ Copyright © 2026 Petko Ganev. All rights reserved.
 
 Support: **petkoganev@gmail.com**
 
-За текущи releases, инсталатори, manifests и публична продуктова информация използвайте **`pgnev/arsexam-releases`**.
+За текущи releases, инсталатори, manifests, Privacy Policy, EULA и публична продуктова информация използвайте **`pgnev/arsexam-releases`**.
