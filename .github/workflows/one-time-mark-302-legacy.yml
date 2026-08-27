@@ -1,0 +1,27 @@
+name: Mark ArsExam 3.0.2 release as legacy
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/one-time-mark-302-legacy.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  mark-legacy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clarify legacy release metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RELEASE_ID: "375496754"
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --method PATCH "/repos/$REPO/releases/$RELEASE_ID" \
+            -f name='LEGACY — ArsExam 3.0.2 compatibility bridge (not current Stable)' \
+            -f body=$'**LEGACY COMPATIBILITY ONLY — NOT THE CURRENT ARSEXAM STABLE RELEASE.**\n\nThis release is retained only as a compatibility bridge for older ArsExam Desktop update URLs. It contains legacy update metadata and is not an independent or current distribution channel.\n\nCurrent official ArsExam Stable: **3.2.1**.\nOfficial downloads, Setup, update packages, manifests and legal/security notices: **pgnev/arsexam-releases**.\n\nDo not use this legacy release as the current ArsExam installer. The existing v3.0.2 tag and compatibility manifest asset are intentionally retained to avoid breaking older clients.' >/dev/null
