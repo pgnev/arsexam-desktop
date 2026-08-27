@@ -1,0 +1,72 @@
+name: Mark ArsExam 3.0.2 as LEGACY prerelease
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/mark-302-legacy-prerelease.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  mark-legacy-prerelease:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      RELEASE_ID: "375496754"
+      EXPECTED_TAG_TARGET: "86688fbb29518df23edfa859e7c49e2ba23a6c20"
+      EXPECTED_ASSET_ID: "527203320"
+      EXPECTED_ASSET_DIGEST: "sha256:9231ac2435fa2b3fc07676cef1c6274f35c18901e234e69eaf40f5d68684ebb8"
+      EXPECTED_TITLE: "LEGACY — ArsExam 3.0.2 compatibility bridge (not current Stable)"
+      EXPECTED_BODY: |-
+        **LEGACY COMPATIBILITY ONLY — NOT THE CURRENT ARSEXAM STABLE RELEASE.**
+
+        This release is retained only as a compatibility bridge for older ArsExam Desktop update URLs. It contains legacy update metadata and is not an independent or current distribution channel.
+
+        Current official ArsExam Stable: **3.2.1**.
+        Official downloads, Setup, update packages, manifests and legal/security notices: **pgnev/arsexam-releases**.
+
+        Do not use this legacy release as the current ArsExam installer. The existing v3.0.2 tag and compatibility manifest asset are intentionally retained to avoid breaking older clients.
+
+    steps:
+      - name: Change only the prerelease flag and verify invariants
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+
+          release_before="$(gh api "/repos/$repo/releases/$RELEASE_ID")"
+          [[ "$(jq -r '.id' <<<"$release_before")" == "$RELEASE_ID" ]]
+          [[ "$(jq -r '.tag_name' <<<"$release_before")" == "v3.0.2" ]]
+          [[ "$(jq -r '.draft' <<<"$release_before")" == "false" ]]
+          [[ "$(jq -r '.prerelease' <<<"$release_before")" == "false" ]]
+          [[ "$(jq -r '.name' <<<"$release_before")" == "$EXPECTED_TITLE" ]]
+          [[ "$(jq -r '.body' <<<"$release_before")" == "$EXPECTED_BODY" ]]
+          [[ "$(jq -r '.assets | length' <<<"$release_before")" == "1" ]]
+          [[ "$(jq -r '.assets[0].id' <<<"$release_before")" == "$EXPECTED_ASSET_ID" ]]
+          [[ "$(jq -r '.assets[0].name' <<<"$release_before")" == "update-manifest.json" ]]
+          [[ "$(jq -r '.assets[0].size' <<<"$release_before")" == "728" ]]
+          [[ "$(jq -r '.assets[0].digest' <<<"$release_before")" == "$EXPECTED_ASSET_DIGEST" ]]
+
+          tag_before="$(gh api "/repos/$repo/git/ref/tags/v3.0.2" --jq '.object.type + ":" + .object.sha')"
+          [[ "$tag_before" == "commit:$EXPECTED_TAG_TARGET" ]]
+          asset_before="$(jq -c '.assets | map({id,name,label,state,content_type,size,digest,created_at,updated_at,url,browser_download_url})' <<<"$release_before")"
+
+          gh api --method PATCH "/repos/$repo/releases/$RELEASE_ID" -F prerelease=true >/dev/null
+
+          release_after="$(gh api "/repos/$repo/releases/$RELEASE_ID")"
+          tag_after="$(gh api "/repos/$repo/git/ref/tags/v3.0.2" --jq '.object.type + ":" + .object.sha')"
+          asset_after="$(jq -c '.assets | map({id,name,label,state,content_type,size,digest,created_at,updated_at,url,browser_download_url})' <<<"$release_after")"
+
+          [[ "$(jq -r '.tag_name' <<<"$release_after")" == "v3.0.2" ]]
+          [[ "$(jq -r '.draft' <<<"$release_after")" == "false" ]]
+          [[ "$(jq -r '.prerelease' <<<"$release_after")" == "true" ]]
+          [[ "$(jq -r '.name' <<<"$release_after")" == "$EXPECTED_TITLE" ]]
+          [[ "$(jq -r '.body' <<<"$release_after")" == "$EXPECTED_BODY" ]]
+          [[ "$tag_after" == "$tag_before" ]]
+          [[ "$asset_after" == "$asset_before" ]]
+
+          echo "Release v3.0.2 is now a LEGACY prerelease; tag and asset metadata are unchanged."
