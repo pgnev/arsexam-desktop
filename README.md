@@ -6,13 +6,26 @@
 
 ## Текущ официален канал
 
-Официалните ArsExam Windows installers, update packages, Stable/Test manifests, release notes и публични legal/privacy/security notices се публикуват в:
+Официалните ArsExam Windows installers, update packages, Stable/Test manifests, release notes и публични legal/privacy/security notices се публикуват единствено в:
 
 **`pgnev/arsexam-releases`**
 
-Към 27.08.2026 г. текущият официален Stable е **ArsExam 3.2.0**. Test каналът временно е синхронизиран със същата версия и няма активен prerelease.
+Към 27.08.2026 г. текущият официален Stable е **ArsExam 3.2.1**. Test каналът в официалния distribution repository остава върху **3.2.0** и няма активен prerelease.
 
 Текущият application source code не се разпространява от това repository.
+
+## Защо тук има Release 3.0.2
+
+Видимият `v3.0.2` release в това legacy repository е **compatibility bridge**, а не текущ ArsExam Stable release. Той съдържа legacy update metadata, предназначена да не се прекъсват по-стари compatibility URL-и.
+
+Този release:
+
+- **не е** текущият ArsExam download;
+- **не е** независим Stable канал;
+- **не трябва** да се сравнява като равнопоставен release с `pgnev/arsexam-releases`;
+- се запазва само докато е необходим за обратна съвместимост на стари инсталации.
+
+За актуалния Setup винаги използвайте `pgnev/arsexam-releases` и текущия Stable release там.
 
 ## Защо repository-то остава онлайн
 
@@ -29,7 +42,7 @@
 
 ## Текуща продуктова линия
 
-ArsExam 3.2.0 включва защитено локално security envelope/SQLCipher-capable SQLite storage, local Recovery Key с encrypted profile-bound vault за нови 3.2+ профили, protected Backup/Restore, Desktop↔Portable Transfer и opt-in crash/error diagnostics.
+ArsExam 3.2.1 е offline-first Windows приложение със защитено локално encrypted SQLite хранилище, local single-use Recovery Key с encrypted profile-bound vault за нови 3.2+ профили, protected Backup/Restore, Desktop↔Portable Transfer и opt-in crash/error diagnostics. 3.2.1 добавя hotfix за encrypted staged-import management и безопасно Desktop uninstall/update cleanup.
 
 Това legacy repository:
 
@@ -52,7 +65,9 @@ Security проблеми се докладват частно на **petkoganev
 
 ArsExam е **proprietary software**. Публичната видимост на това compatibility repository не предоставя MIT, GPL, Apache или друг open-source лиценз върху оригиналния ArsExam софтуер.
 
-Официалните ArsExam binaries се използват съгласно EULA, публикувана с официалната дистрибуция в `pgnev/arsexam-releases`. Third-party компонентите запазват собствените си лицензи и notices.
+Освен доколкото EULA или приложимото императивно право допуска друго, не се предоставя право за обратно инженерство, декомпилация, дизасемблиране, реконструиране на изходен код или създаване на производни версии на оригиналното ArsExam приложение. Third-party компонентите запазват собствените си лицензи и права.
+
+Официалните ArsExam binaries се използват съгласно EULA, публикувана с официалната дистрибуция в `pgnev/arsexam-releases`.
 
 Вижте `LICENSE.md` и `COPYRIGHT.md`.
 
