@@ -14,7 +14,12 @@
 
 **`pgnev/arsexam-source`**
 
-Текущият публикуван Stable е **ArsExam 3.6.1**. Разработката на 3.6.2 се извършва единствено в canonical source repository и не превръща това legacy repository в release authority.
+Текущата Stable версия **не се дублира статично в това legacy repository**. Authoritative current Stable identity се определя от:
+
+- `pgnev/arsexam-releases/update/stable-manifest.json`;
+- latest public release в `pgnev/arsexam-releases`.
+
+Това предотвратява остарели „current version“ твърдения тук при бъдещи release-и.
 
 ## Защо repository-то все още не трябва да се изтрива
 
@@ -26,7 +31,7 @@
 
 Текущите ArsExam версии четат официалните Stable/Test feeds от `pgnev/arsexam-releases`, а от 3.5.1 насам няма активен runtime fallback към това repository. Въпреки това compatibility endpoint-ът за по-старите клиенти трябва първо да бъде изведен от support или заменен с доказан migration bridge.
 
-**Статус:** repository-то е оперативно неактивно и трябва да остане замразено. **Не го изтривайте**, докато canonical release policy изрично не обяви legacy 3.0.x update path за неподдържан или не бъде валидиран replacement bridge.
+**Статус:** repository-то е оперативно неактивно и трябва да остане замразено. **Не го изтривайте и не го правете private**, докато canonical release policy изрично не обяви legacy 3.0.x update path за неподдържан или не бъде валидиран replacement bridge.
 
 ## Исторически `v3.0.2`
 
