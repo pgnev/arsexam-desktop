@@ -1,8 +1,8 @@
-# ArsExam Desktop — Retired Legacy Repository
+# ArsExam Desktop — Retired Legacy Compatibility Repository
 
-Това repository е **retired** и повече не е част от поддържаната ArsExam update/distribution architecture.
+Това repository е **retired** и не е част от текущата ArsExam development/distribution architecture.
 
-> **Не използвайте това repository за download, release, update manifest или текуща продуктова документация.**
+> **Не използвайте това repository като текущ download, release, update authority или продуктова документация.**
 
 ## Официален канал
 
@@ -14,33 +14,30 @@
 
 **`pgnev/arsexam-source`**
 
-Текущият public Stable е **ArsExam 3.5.0**. **ArsExam 3.5.1** е development / acceptance candidate и **НЕ Е ПУБЛИКУВАН**.
+Текущият публикуван Stable е **ArsExam 3.6.1**. Разработката на 3.6.2 се извършва единствено в canonical source repository и не превръща това legacy repository в release authority.
 
-## Статус на това repository
+## Защо repository-то все още не трябва да се изтрива
 
-`pgnev/arsexam-desktop` е използвано исторически като compatibility bridge за ранни ArsExam Desktop update URL-и.
+`pgnev/arsexam-desktop` е използвано исторически от ранни ArsExam Desktop updater-и. По-конкретно ArsExam **3.0.1** съдържа hard-coded Stable URL към:
 
-От 3.5.1 candidate:
+`https://github.com/pgnev/arsexam-desktop/releases/latest/download/update-manifest.json`
 
-- runtime fallback-ът към `pgnev/arsexam-desktop` е премахнат от updater-а;
-- Stable и Test manifest-ите се четат само от `pgnev/arsexam-releases`;
-- public release publisher-ът използва само `pgnev/arsexam-releases`;
-- exact-head Windows Release #949 е SUCCESS;
-- exact-head Update Upgrade Matrix #419 е SUCCESS;
-- няма активна поддържана runtime/workflow зависимост към това repository.
+Следователно изтриването на repository-то би прекъснало този исторически update endpoint за инсталации, които още разчитат на него.
 
-Следователно това repository **може да бъде архивирано** и не трябва да се поддържа като compatibility channel. Окончателното му изтриване е repository housekeeping решение и не е prerequisite за нормалната работа на ArsExam 3.5.1 architecture.
+Текущите ArsExam версии четат официалните Stable/Test feeds от `pgnev/arsexam-releases`, а от 3.5.1 насам няма активен runtime fallback към това repository. Въпреки това compatibility endpoint-ът за по-старите клиенти трябва първо да бъде изведен от support или заменен с доказан migration bridge.
+
+**Статус:** repository-то е оперативно неактивно и трябва да остане замразено. **Не го изтривайте**, докато canonical release policy изрично не обяви legacy 3.0.x update path за неподдържан или не бъде валидиран replacement bridge.
 
 ## Исторически `v3.0.2`
 
-Видимият `v3.0.2` release/tag е **исторически compatibility artifact**. Той:
+Видимият `v3.0.2` release/tag е исторически compatibility artifact. Той:
 
 - не е текущ ArsExam Stable release;
 - не е официален download;
 - не е независим update channel;
 - не е authority за текущи manifests или binaries.
 
-За актуални releases използвайте единствено `pgnev/arsexam-releases`.
+Compatibility metadata не трябва да се използва за нови инсталации. За актуални releases използвайте единствено `pgnev/arsexam-releases`.
 
 ## Security boundary
 
