@@ -13,7 +13,7 @@ Do not publish exploitable details, credentials, Recovery Keys, Backup passwords
 This repository must not contain:
 
 - current ArsExam application source code;
-- current Stable/Test update manifests;
+- current Stable/Test update manifests for supported current clients;
 - user profiles or databases;
 - Recovery Keys, Backup passwords or Transfer credentials;
 - signing/private keys or GitHub write credentials;
@@ -26,14 +26,20 @@ The sole official public distribution/update authority is **`pgnev/arsexam-relea
 
 The private canonical source/development repository is **`pgnev/arsexam-source`**.
 
-The ArsExam 3.5.1 candidate has removed runtime update fallback to `pgnev/arsexam-desktop`; this repository is therefore no longer an active compatibility dependency.
+This retired repository deliberately does **not** hard-code a current Stable or development version. Current public Stable identity is determined by:
 
-Current public Stable: **3.5.0**.  
-Current development / acceptance candidate: **3.5.1 — NOT RELEASED**.
+- `pgnev/arsexam-releases/update/stable-manifest.json`;
+- the latest non-draft, non-prerelease public release in `pgnev/arsexam-releases`.
+
+Current supported ArsExam versions use the official feeds in `pgnev/arsexam-releases`. This repository is retained only for legacy compatibility: early ArsExam Desktop clients, including the historical 3.0.1 line, may still contain a hard-coded update URL under `pgnev/arsexam-desktop`.
+
+Therefore this repository must remain frozen and public until the canonical release policy explicitly retires that legacy compatibility path or a validated replacement bridge is in place. It must not be treated as a second current distribution authority.
 
 ## Historical content
 
 Any legacy manifests, compatibility metadata, tags or release objects remaining here are historical artifacts only. They must not be treated as current download/update authority and must not be modified to create a second distribution channel.
+
+The legacy `update/test-manifest.json` and historical release/tag metadata remain compatibility/history evidence; they do not define the current Test or Stable channel for supported clients.
 
 ## No recovery backend here
 
