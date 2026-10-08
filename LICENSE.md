@@ -12,4 +12,4 @@ Third-party libraries/components retain their own licenses and rights; nothing h
 
 This repository exists only for compatibility metadata/notices required by older clients. Its public availability does not authorize modified or misleadingly branded ArsExam binaries to be represented as official releases.
 
-For licensing enquiries: petkoganev@gmail.com
+For licensing enquiries: support@arsexam.com
