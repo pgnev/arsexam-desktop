@@ -4,7 +4,7 @@ This repository is **retired** and is not part of the current ArsExam source, re
 
 ## Report privately
 
-Report suspected ArsExam vulnerabilities privately to **petkoganev@gmail.com** with subject `ArsExam security report`.
+Report suspected ArsExam vulnerabilities privately to **support@arsexam.com** with subject `ArsExam security report`.
 
 Do not publish exploitable details, credentials, Recovery Keys, Backup passwords, Transfer credentials, private diagnostics, databases or examination content in public issues.
 
