@@ -1,7 +1,7 @@
 # ArsExam Copyright Notice
 
 **Author and developer:** Petko Ganev  
-**Contact:** petkoganev@gmail.com
+**Contact:** support@arsexam.com
 
 Copyright © 2026 Petko Ganev. All rights reserved.
 
