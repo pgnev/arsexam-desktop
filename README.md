@@ -55,7 +55,7 @@ Compatibility metadata не трябва да се използва за нов�
 - private diagnostic events;
 - confidential examination content.
 
-Security проблеми се докладват частно на **petkoganev@gmail.com**. Вижте `SECURITY.md`.
+Security проблеми се докладват частно на **support@arsexam.com**. Вижте `SECURITY.md`.
 
 ## Licensing
 
@@ -69,6 +69,6 @@ ArsExam е **proprietary software**. Публичната видимост на 
 
 Copyright © 2026 Petko Ganev. All rights reserved.
 
-Support: **petkoganev@gmail.com**
+Support: **support@arsexam.com**
 
 За текущи releases, installers, manifests, Privacy Policy, EULA и публична продуктова информация използвайте **`pgnev/arsexam-releases`**.
